@@ -1,0 +1,39 @@
+# ==============================================================================
+# Esqueleto de CI para el sitio estático.
+# Renómbralo a `ci.yml` para activarlo. Mientras tenga la extensión `.example`,
+# GitHub no lo ejecuta. Ajusta los pasos si añades toolchain al proyecto.
+# ==============================================================================
+
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  format:
+    name: Formato Markdown
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Verificar formato de la documentación
+        run: bash .github/scripts/format-markdown.sh --check
+
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Tests
+        run: echo "No aplica: sitio estático sin suite automatizada (verificación manual en el navegador)"
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [format, test]
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build
+        run: echo "No aplica: sitio estático sin paso de build (GitHub Pages sirve los archivos)"
