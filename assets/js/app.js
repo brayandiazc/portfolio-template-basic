@@ -1,10 +1,12 @@
 /* ==========================================================================
    Plantilla Portafolio Básico — lógica de la página
-   - Carga los repositorios del usuario desde la API pública de GitHub.
-   - Separa "Proyectos destacados" (repos propios con estrella del autor)
-     de "Repositorios" (el resto).
+   - "Proyectos": lista curada a mano (assets/js/projects.js).
+   - "Repositorios": desde la API pública de GitHub, los que tienen estrellas,
+     ordenados por número de estrellas.
    - Alterna tema claro/oscuro con persistencia.
    ========================================================================== */
+
+import { PROJECTS } from "./projects.js";
 
 /* ===== CONFIG ===== */
 const CONFIG = {
@@ -14,6 +16,11 @@ const CONFIG = {
   exclude: ["brayandiazc"],
   // Ocultar forks del listado.
   hideForks: true,
+  // Solo mostrar repos con al menos esta cantidad de estrellas (0 = todos).
+  minStars: 1,
+  // Máximo de repos a mostrar (0 = sin límite).
+  maxRepos: 12,
+  // Topics a mostrar por card.
   maxTopics: 4,
 };
 
@@ -60,15 +67,50 @@ const escapeHtml = (str = "") =>
       })[c]
   );
 
-const renderTopics = (topics = []) =>
-  topics.length
-    ? `<div class="topics">${topics
+const renderTags = (tags = [], cls = "topic") =>
+  tags.length
+    ? `<div class="topics">${tags
         .slice(0, CONFIG.maxTopics)
-        .map((t) => `<span class="topic">${escapeHtml(t)}</span>`)
+        .map((t) => `<span class="${cls}">${escapeHtml(t)}</span>`)
         .join("")}</div>`
     : "";
 
-/* ===== FETCH ===== */
+/* ===== PROYECTOS (curados) ===== */
+function projectCard(p) {
+  const links = [
+    p.demoUrl
+      ? `<a class="repo-link" href="${encodeURI(p.demoUrl)}" target="_blank" rel="noopener">Demo →</a>`
+      : "",
+    p.repoUrl
+      ? `<a class="repo-link" href="${encodeURI(p.repoUrl)}" target="_blank" rel="noopener">Código →</a>`
+      : "",
+  ]
+    .filter(Boolean)
+    .join("");
+
+  return `
+    <article class="repo-card">
+      <h3>${escapeHtml(p.title || "Proyecto")}</h3>
+      <p class="desc">${escapeHtml(p.description || "")}</p>
+      ${renderTags(p.tags)}
+      <div class="foot">
+        <span class="stats"></span>
+        <span class="links">${links}</span>
+      </div>
+    </article>`;
+}
+
+function renderProjects() {
+  const el = document.getElementById("project-cards");
+  if (!el) return;
+  if (!Array.isArray(PROJECTS) || !PROJECTS.length) {
+    el.innerHTML = `<p class="state">Añade tus proyectos en <code>assets/js/projects.js</code>.</p>`;
+    return;
+  }
+  el.innerHTML = PROJECTS.map(projectCard).join("");
+}
+
+/* ===== REPOSITORIOS (GitHub) ===== */
 async function ghJson(url) {
   const res = await fetch(url, {
     headers: { Accept: "application/vnd.github+json" },
@@ -79,49 +121,30 @@ async function ghJson(url) {
 
 async function loadRepos() {
   const user = CONFIG.githubUsername;
-
-  // Repos del usuario + repos que ha marcado con estrella (en paralelo).
-  const [repos, starred] = await Promise.all([
-    ghJson(
-      `https://api.github.com/users/${user}/repos?per_page=100&sort=updated`
-    ),
-    ghJson(`https://api.github.com/users/${user}/starred?per_page=100`),
-  ]);
-
-  // Nombres (owner/repo) de los repos PROPIOS que el autor ha estrellado.
-  const starredOwn = new Set(
-    starred
-      .filter((r) => r.owner?.login?.toLowerCase() === user.toLowerCase())
-      .map((r) => r.full_name)
+  const repos = await ghJson(
+    `https://api.github.com/users/${user}/repos?per_page=100&sort=updated`
   );
 
-  const visible = repos.filter(
+  let visible = repos.filter(
     (r) =>
       !CONFIG.exclude.includes(r.name) &&
       !(CONFIG.hideForks && r.fork) &&
-      !r.archived
+      !r.archived &&
+      r.stargazers_count >= CONFIG.minStars
   );
 
-  const featured = visible
-    .filter((r) => starredOwn.has(r.full_name))
-    .sort((a, b) => b.stargazers_count - a.stargazers_count);
+  visible.sort((a, b) => b.stargazers_count - a.stargazers_count);
 
-  const others = visible
-    .filter((r) => !starredOwn.has(r.full_name))
-    .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
-
-  return { featured, others };
+  if (CONFIG.maxRepos > 0) visible = visible.slice(0, CONFIG.maxRepos);
+  return visible;
 }
 
-/* ===== RENDER ===== */
-function repoCard(repo, { featured = false } = {}) {
-  const topics = renderTopics(repo.topics);
-  const star = featured ? '<span class="star" title="Destacado">★</span>' : "";
+function repoCard(repo) {
   return `
     <article class="repo-card">
-      <h3>${star}${escapeHtml(repo.name)}</h3>
+      <h3>${escapeHtml(repo.name)}</h3>
       <p class="desc">${escapeHtml(truncate(repo.description, 120))}</p>
-      ${topics}
+      ${renderTags(repo.topics)}
       <div class="foot">
         <span class="stats">
           <span title="Estrellas">★ ${repo.stargazers_count}</span>
@@ -134,41 +157,31 @@ function repoCard(repo, { featured = false } = {}) {
     </article>`;
 }
 
-function renderInto(containerId, repos, opts) {
-  const el = document.getElementById(containerId);
-  if (!el) return;
-  if (!repos.length) {
-    el.innerHTML = `<p class="state">No hay repositorios para mostrar.</p>`;
-    return;
-  }
-  el.innerHTML = repos.map((r) => repoCard(r, opts)).join("");
-}
-
 /* ===== INIT ===== */
 async function init() {
   initTheme();
+  renderProjects();
 
-  const featuredEl = document.getElementById("featured-cards");
   const reposEl = document.getElementById("repo-cards");
-  const setState = (el, msg, isError = false) => {
-    if (el)
-      el.innerHTML = `<p class="state${isError ? " error" : ""}">${msg}</p>`;
+  const setState = (msg, isError = false) => {
+    if (reposEl)
+      reposEl.innerHTML = `<p class="state${isError ? " error" : ""}">${msg}</p>`;
   };
 
-  setState(featuredEl, "Cargando proyectos destacados…");
-  setState(reposEl, "Cargando repositorios…");
-
+  setState("Cargando repositorios…");
   try {
-    const { featured, others } = await loadRepos();
-    renderInto("featured-cards", featured, { featured: true });
-    renderInto("repo-cards", others);
+    const repos = await loadRepos();
+    if (!repos.length) {
+      setState("No hay repositorios con estrellas para mostrar.");
+      return;
+    }
+    reposEl.innerHTML = repos.map(repoCard).join("");
   } catch (err) {
     console.error(err);
-    const msg =
-      "No se pudieron cargar los repositorios (límite de la API o red). Inténtalo más tarde.";
-    setState(featuredEl, msg, true);
-    setState(reposEl, "", true);
-    if (reposEl) reposEl.innerHTML = "";
+    setState(
+      "No se pudieron cargar los repositorios (límite de la API o red). Inténtalo más tarde.",
+      true
+    );
   }
 }
 

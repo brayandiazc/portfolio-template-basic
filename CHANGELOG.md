@@ -7,6 +7,24 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ## [Unreleased]
 
+### Added
+
+- Sección **Proyectos** curada a mano en `assets/js/projects.js` (título, descripción,
+  tags, enlaces a demo y código), con ejemplos editables.
+- Opciones `minStars` y `maxRepos` en `CONFIG`.
+
+### Changed
+
+- La sección **Repositorios** ahora muestra los repos de GitHub **con estrellas**,
+  ordenados de más a menos (antes: destacados = repos propios con estrella + resto).
+- **Proyectos** y **Repositorios** son ahora orígenes independientes: curado manual vs GitHub.
+
+### Removed
+
+- Sitio ya no usa el dominio inexistente `template-portafolio.com`; se sirve en la URL
+  por defecto de GitHub Pages. Se elimina el archivo `CNAME` y la captura
+  `assets/img/main.jpeg` (obsoleta tras el rediseño).
+
 ## [1.0.0] - 2026-07-02
 
 ### Added

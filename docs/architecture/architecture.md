@@ -15,6 +15,7 @@ graph TD
         H[index.html · secciones del perfil]
         CSS[Tokens CSS claro/oscuro]
         JS[assets/js/app.js · ES module]
+        P[assets/js/projects.js · datos curados]
     end
     subgraph Externos
         GH[API pública de GitHub]
@@ -22,20 +23,22 @@ graph TD
 
     H --> JS
     CSS --> H
+    P -->|import| JS
     JS -->|fetch en runtime| GH
-    GH -->|repos + starred| JS
-    JS -->|render| D[Proyectos destacados]
-    JS -->|render| R[Repositorios]
+    GH -->|repos con estrellas| JS
+    JS -->|render| D[Proyectos · curados a mano]
+    JS -->|render| R[Repositorios · desde GitHub]
 ```
 
 ## Componentes
 
 | Componente        | Responsabilidad                                                                       | Tecnología             |
 | ----------------- | ------------------------------------------------------------------------------------- | ---------------------- |
-| `index.html`      | Renderiza las secciones del perfil (inicio, sobre mí, experiencia, educación, habilidades, destacados, repositorios) | HTML5                  |
-| Hoja de estilos   | Define los tokens de color y el layout; aplica tema claro/oscuro vía `data-theme`     | CSS3 con variables     |
-| `assets/js/app.js`| Consulta la API de GitHub en tiempo de ejecución y renderiza las tarjetas de repos    | JavaScript (ES module) |
-| GitHub REST API   | Fuente de datos externa de los repositorios del usuario                               | Servicio público       |
+| `index.html`         | Renderiza las secciones del perfil (inicio, sobre mí, experiencia, educación, habilidades, proyectos, repositorios) | HTML5                  |
+| Hoja de estilos      | Define los tokens de color y el layout; aplica tema claro/oscuro vía `data-theme`  | CSS3 con variables     |
+| `assets/js/projects.js` | Lista **curada a mano** de proyectos (título, descripción, enlaces)             | Datos (ES module)      |
+| `assets/js/app.js`   | Importa los proyectos y consulta la API de GitHub; renderiza ambas secciones       | JavaScript (ES module) |
+| GitHub REST API      | Fuente de datos externa de los repositorios del usuario                            | Servicio público       |
 
 ## Decisiones clave
 
@@ -65,16 +68,17 @@ sequenceDiagram
     participant GH as API GitHub
     U->>P: Abre la página
     P->>J: Carga el módulo
-    J->>GH: GET /users/{usuario}/repos y /starred
+    J->>J: Renderiza "Proyectos" desde projects.js (curados)
+    J->>GH: GET /users/{usuario}/repos
     GH-->>J: Lista de repositorios
-    J->>J: Separa destacados (repos propios con estrella) del resto
-    J-->>P: Renderiza "Proyectos destacados" y "Repositorios"
-    P-->>U: Perfil + tarjetas de repos
+    J->>J: Filtra por estrellas y ordena de más a menos
+    J-->>P: Renderiza "Repositorios"
+    P-->>U: Perfil + proyectos + repos
 ```
 
-Los **Proyectos destacados** son los repositorios **propios** que el autor ha
-marcado con estrella; el resto de repositorios visibles (sin forks ni archivados)
-se listan en **Repositorios**.
+Los **Proyectos** son una lista curada a mano en `assets/js/projects.js` (título,
+descripción y enlaces). Los **Repositorios** se traen de GitHub, filtrados a los que
+tienen estrellas (sin forks ni archivados) y ordenados de más a menos.
 
 ## Referencias
 

@@ -21,9 +21,9 @@
 ### Funcionales
 
 - Renderizar las secciones del perfil: inicio, sobre mí, experiencia, educación,
-  habilidades, proyectos destacados y repositorios.
-- Cargar los repositorios del usuario desde la API pública de GitHub y separar
-  "Proyectos destacados" (repos propios con estrella) del resto.
+  habilidades, proyectos y repositorios.
+- Renderizar "Proyectos" desde una lista curada a mano (`assets/js/projects.js`) y
+  "Repositorios" desde la API pública de GitHub, filtrados por estrellas.
 - Permitir cambiar entre tema claro y oscuro, con persistencia.
 
 ### No funcionales

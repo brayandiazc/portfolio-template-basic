@@ -350,6 +350,11 @@ section {
   gap: 0.25rem;
 }
 
+.repo-card .links {
+  display: flex;
+  gap: 0.85rem;
+}
+
 .repo-link {
   color: var(--accent);
   font-weight: 500;

@@ -29,16 +29,16 @@ oscuro** siguiendo el estilo gráfico de [brayandiazc.com](https://brayandiazc.c
 
 Esta plantilla es una portada profesional lista para publicar en GitHub Pages.
 Está pensada para clonarse, cambiar tu usuario de GitHub y tus datos, y tener un
-portafolio funcional sin build ni backend. La sección de proyectos se alimenta
-sola desde tu cuenta de GitHub.
+portafolio funcional sin build ni backend. Tiene **dos secciones de trabajo**:
+**Proyectos** (curados a mano) y **Repositorios** (traídos de tu GitHub).
 
 ## Características
 
 - ✅ Diseño responsivo, **sin frameworks CSS** (Bootstrap fue reemplazado por CSS propio)
 - ✅ **Tema claro/oscuro** con conmutador y persistencia (`localStorage`), sin parpadeo
 - ✅ Secciones bien separadas: perfil, sobre mí, experiencia, educación, habilidades
-- ✅ **Proyectos destacados** y **Repositorios** cargados en vivo desde la API de GitHub
-- ✅ Los destacados son tus repos propios marcados con ⭐ estrella por ti
+- ✅ **Proyectos**: lista curada a mano en `assets/js/projects.js` (título, descripción, enlaces)
+- ✅ **Repositorios**: tus repos de GitHub con más ⭐ estrellas, cargados en vivo
 - ✅ Datos estructurados JSON-LD para SEO
 - ✅ Cero dependencias que instalar
 
@@ -59,7 +59,8 @@ Detalle completo en [`docs/architecture/stack.md`](docs/architecture/stack.md).
 portfolio-template-basic/
 ├── assets/
 │   ├── css/styles.css   # tema y estilos (design tokens de brayandiazc.com)
-│   └── js/app.js        # carga de repos y conmutador de tema
+│   ├── js/app.js        # render de secciones, repos de GitHub y tema
+│   └── js/projects.js   # ← tu lista de proyectos (edítala aquí)
 ├── docs/                # documentación (arquitectura, convenciones, decisiones…)
 ├── index.html           # única página del sitio
 └── README.md
@@ -85,30 +86,54 @@ No hay dependencias que instalar ni paso de build.
 
 ## Configuración
 
-Edita el objeto `CONFIG` al inicio de [`assets/js/app.js`](assets/js/app.js):
+**1. Tus proyectos** — edita la lista en [`assets/js/projects.js`](assets/js/projects.js):
+
+```js
+export const PROJECTS = [
+  {
+    title: "Task Manager API",
+    description: "API REST para gestionar tareas, con auth JWT.",
+    tags: ["Node.js", "Express", "PostgreSQL"],
+    demoUrl: "https://example.com/task-manager", // opcional
+    repoUrl: "https://github.com/tu-usuario/task-manager", // opcional
+  },
+  // …añade los tuyos
+];
+```
+
+**2. Tus repositorios y datos** — ajusta el objeto `CONFIG` al inicio de
+[`assets/js/app.js`](assets/js/app.js) y reemplaza `[Tu Nombre]`, la foto, redes y
+textos en `index.html`:
 
 ```js
 const CONFIG = {
   githubUsername: "brayandiazc", // ← tu usuario de GitHub
   exclude: ["brayandiazc"], // repos a ocultar (p. ej. el repo de perfil)
   hideForks: true, // ocultar forks
+  minStars: 1, // solo repos con al menos N estrellas (0 = todos)
+  maxRepos: 12, // máximo de repos a mostrar (0 = sin límite)
   maxTopics: 4, // topics a mostrar por card
 };
 ```
 
-Luego reemplaza los `[Tu Nombre]`, la foto, redes y textos en `index.html`.
-
 ## Cómo se separan proyectos y repositorios
 
-La sección de proyectos se genera **dinámicamente** desde tu GitHub, dividida en dos:
+Son dos secciones con orígenes distintos, a propósito:
 
-1. **Proyectos destacados** → tus repositorios **propios** que **tú has marcado con
-   estrella** (`/users/{usuario}/starred`, filtrando `owner == usuario`). Es una
-   curaduría manual: la estrella en tu propio repo lo asciende a destacado.
-2. **Repositorios** → el resto de tus repos públicos, ordenados por actividad reciente.
+1. **Proyectos** → **curados a mano** en `assets/js/projects.js`. Aquí pones lo que
+   quieras destacar con su descripción y enlaces (demo y/o código), sin depender de
+   GitHub. Ideal para trabajos que no son un repo público o que quieres presentar mejor.
+2. **Repositorios** → traídos **en vivo** de la API pública de GitHub
+   (`/users/{usuario}/repos`), filtrados a los que tienen **estrellas** y ordenados de
+   más a menos. Se ocultan forks y archivados. Todo configurable en `CONFIG`.
 
-Se ocultan forks y archivados; todo es configurable en `CONFIG`. La API pública
-tiene límite de peticiones sin token (60/hora por IP), suficiente para un portafolio.
+> **¿Y los repos _pineados_?** La API REST pública (sin token) no expone los repos
+> fijados de un perfil — eso solo está en la API GraphQL, que requiere autenticación y
+> no puede incrustarse de forma segura en un sitio estático. Por eso el orden por
+> estrellas es la mejor aproximación sin backend. Si quieres pineados exactos,
+> necesitarías un pequeño proxy con token o generar la lista en tiempo de build.
+
+La API pública tiene límite de 60 peticiones/hora por IP sin token, de sobra para un portafolio.
 
 ## Tema y diseño
 

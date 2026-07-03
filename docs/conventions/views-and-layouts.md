@@ -15,14 +15,14 @@ rutas: todo el contenido vive en secciones dentro del mismo documento.
 | `#experiencia` | Historial profesional                                  |
 | `#educacion`   | Formación                                              |
 | `#habilidades` | Tecnologías y competencias                             |
-| `#destacados`  | Proyectos destacados (repos propios con estrella)      |
-| `#repositorios`| Resto de repositorios cargados desde la API de GitHub  |
+| `#proyectos`   | Proyectos curados a mano (`assets/js/projects.js`)     |
+| `#repositorios`| Repositorios con estrellas cargados desde la API de GitHub |
 
 ## Elementos compartidos
 
 - **Head compartido**: metadatos y SEO (ver [`seo.md`](seo.md)).
 - **Cambio de tema**: botón que alterna `data-theme` claro/oscuro.
-- **Tarjeta de repositorio**: patrón único reutilizado en destacados y repositorios.
+- **Tarjeta**: patrón único de card reutilizado en proyectos y repositorios.
 
 ## Reglas
 
