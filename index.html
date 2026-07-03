@@ -1,176 +1,213 @@
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html lang="es" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Portafolio de [Tu Nombre]</title>
     <meta
       name="description"
-      content="Portafolio de [Tu Nombre], desarrollador web especializado en HTML, CSS y JavaScript. Descubre mis proyectos y habilidades."
+      content="Portafolio de [Tu Nombre], desarrollador Full Stack. Perfil, experiencia, habilidades, proyectos destacados y repositorios."
     />
     <meta
       name="keywords"
-      content="portafolio, desarrollador web, HTML, CSS, JavaScript, proyectos, habilidades"
+      content="portafolio, desarrollador, full stack, HTML, CSS, JavaScript, proyectos, GitHub"
     />
     <meta name="author" content="[Tu Nombre]" />
     <meta name="robots" content="index, follow" />
-    <meta name="language" content="es" />
 
-    <!-- Bootstrap 5.3 -->
+    <!-- Tipografía (misma que brayandiazc.com) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
-    <!-- Font Awesome -->
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <!-- Custom Styles -->
+    <!-- Estilos propios -->
     <link rel="stylesheet" href="assets/css/styles.css" />
     <!-- Favicon -->
-    <link rel="icon" href="/ruta-al-favicon.ico" type="image/x-icon" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%23212737'/><rect width='16' height='2' fill='%23ff6b01'/><rect x='3' y='6' width='10' height='2' rx='1' fill='%23eaedf3'/><rect x='3' y='10' width='6' height='2' rx='1' fill='%23ff6b01'/></svg>"
+    />
 
-    <!-- JSON-LD -->
+    <!-- Evita el parpadeo de tema: aplica el guardado / preferido antes de pintar -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem("portfolio-theme");
+          var theme =
+            saved ||
+            (window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light");
+          document.documentElement.setAttribute("data-theme", theme);
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Datos estructurados (SEO) -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Person",
         "name": "[Tu Nombre]",
-        "url": "https://[tu-dominio.com]",
+        "url": "https://template-portafolio.com",
         "sameAs": [
-          "https://www.linkedin.com/in/[usuario]",
-          "https://github.com/[usuario]"
+          "https://www.linkedin.com/in/brayandiazc/",
+          "https://github.com/brayandiazc"
         ],
-        "jobTitle": "Desarrollador Web",
-        "worksFor": {
-          "@type": "Organization",
-          "name": "Freelance"
-        }
+        "jobTitle": "Desarrollador Full Stack"
       }
     </script>
   </head>
+
   <body>
-    <!-- Header -->
-    <header class="bg-light text-center py-5">
-      <img
-        src="https://bulma.io/assets/images/placeholders/128x128.png"
-        class="rounded-circle mb-3"
-        alt="Foto de perfil"
-        width="128"
-        height="128"
-      />
-      <h1 class="display-5">[Tu Nombre]</h1>
-      <p class="lead">
-        Full Stack Developer | Frontend Engineer | Web Designer
-      </p>
-      <div class="d-flex justify-content-center gap-3 mt-3">
-        <a
-          href="https://github.com/brayandiazc"
-          target="_blank"
-          class="btn btn-dark"
+    <!-- Barra superior -->
+    <header class="top">
+      <div class="wrap">
+        <p class="brand">portfolio-template-basic</p>
+        <button
+          id="page-theme"
+          type="button"
+          aria-label="Cambiar tema claro/oscuro"
         >
-          <i class="fab fa-github me-2"></i>GitHub
-        </a>
-        <a
-          href="https://www.linkedin.com/in/brayandiazc/"
-          target="_blank"
-          class="btn btn-primary"
-        >
-          <i class="fab fa-linkedin me-2"></i>LinkedIn
-        </a>
-        <a
-          href="mailto:brayandiazc@gmail.com"
-          class="btn btn-outline-secondary"
-        >
-          <i class="fas fa-envelope me-2"></i>Email
-        </a>
+          ◐
+        </button>
       </div>
     </header>
 
-    <!-- Sobre mí -->
-    <section class="container my-5">
-      <h2 class="mb-4">Sobre mí</h2>
-      <p>
-        Soy un <strong>Desarrollador Full Stack</strong> con experiencia en
-        tecnologías como React, Node.js y Python. Me enfoco en construir
-        aplicaciones web escalables y soluciones creativas.
-      </p>
-      <p>
-        Actualmente, estoy en búsqueda de nuevas oportunidades donde pueda
-        aportar mis conocimientos y seguir creciendo profesionalmente.
-      </p>
-    </section>
+    <main>
+      <!-- Hero -->
+      <section class="hero wrap" id="inicio">
+        <img
+          src="https://bulma.io/assets/images/placeholders/128x128.png"
+          alt="Foto de perfil de [Tu Nombre]"
+          width="128"
+          height="128"
+        />
+        <h1>[Tu Nombre]</h1>
+        <p class="lead">
+          Full Stack Developer · Frontend Engineer · Web Designer
+        </p>
+        <nav class="social" aria-label="Redes sociales">
+          <a
+            class="btn btn-accent"
+            href="https://github.com/brayandiazc"
+            target="_blank"
+            rel="noopener"
+            >GitHub</a
+          >
+          <a
+            class="btn"
+            href="https://www.linkedin.com/in/brayandiazc/"
+            target="_blank"
+            rel="noopener"
+            >LinkedIn</a
+          >
+          <a class="btn" href="mailto:brayandiazc@gmail.com">Email</a>
+        </nav>
+      </section>
 
-    <!-- Experiencia laboral -->
-    <section class="container my-5">
-      <h2 class="mb-4">Experiencia laboral</h2>
-      <div class="mb-3">
-        <h5>Empresa</h5>
-        <p class="text-muted">2020 - Actual | Desarrollador Full Stack</p>
-        <p>Descripción breve del rol y logros.</p>
-      </div>
-      <div class="mb-3">
-        <h5>Empresa 2</h5>
-        <p class="text-muted">2018 - 2020 | Desarrollador Full Stack</p>
-        <p>Descripción breve del rol y logros.</p>
-      </div>
-      <div>
-        <h5>Empresa 3</h5>
-        <p class="text-muted">2016 - 2018 | Desarrollador Full Stack</p>
-        <p>Descripción breve del rol y logros.</p>
-      </div>
-    </section>
+      <!-- Sobre mí -->
+      <section class="wrap prose" id="sobre-mi">
+        <h2 class="section-title">Sobre mí</h2>
+        <p>
+          Soy un <strong>Desarrollador Full Stack</strong> con experiencia en
+          tecnologías como React, Node.js y Python. Me enfoco en construir
+          aplicaciones web escalables y soluciones creativas.
+        </p>
+        <p>
+          Actualmente busco nuevas oportunidades donde aportar mis conocimientos
+          y seguir creciendo profesionalmente.
+        </p>
+      </section>
 
-    <!-- Educación -->
-    <section class="container my-5">
-      <h2 class="mb-4">Educación</h2>
-      <div class="mb-3">
-        <h5>Universidad</h5>
-        <p class="text-muted">2020 - Actual | Desarrollador Full Stack</p>
-        <p>Descripción breve de la carrera y logros.</p>
-      </div>
-      <div>
-        <h5>Universidad</h5>
-        <p class="text-muted">2020 - Actual | Desarrollador Full Stack</p>
-        <p>Descripción breve de la carrera y logros.</p>
-      </div>
-    </section>
+      <!-- Experiencia -->
+      <section class="wrap" id="experiencia">
+        <h2 class="section-title">Experiencia</h2>
+        <div class="timeline">
+          <div class="timeline-item">
+            <h3>Empresa 1</h3>
+            <p class="meta">2020 — Actual · Desarrollador Full Stack</p>
+            <p>Descripción breve del rol y de los principales logros.</p>
+          </div>
+          <div class="timeline-item">
+            <h3>Empresa 2</h3>
+            <p class="meta">2018 — 2020 · Desarrollador Full Stack</p>
+            <p>Descripción breve del rol y de los principales logros.</p>
+          </div>
+          <div class="timeline-item">
+            <h3>Empresa 3</h3>
+            <p class="meta">2016 — 2018 · Desarrollador Full Stack</p>
+            <p>Descripción breve del rol y de los principales logros.</p>
+          </div>
+        </div>
+      </section>
 
-    <!-- Proyectos -->
-    <section class="container my-5">
-      <h2 class="mb-4">Proyectos Destacados</h2>
-      <div class="row" id="project-cards">
-        <!-- Aquí puedes insertar cards de Bootstrap dinámicamente -->
-      </div>
-    </section>
+      <!-- Educación -->
+      <section class="wrap" id="educacion">
+        <h2 class="section-title">Educación</h2>
+        <div class="timeline">
+          <div class="timeline-item">
+            <h3>Universidad / Institución</h3>
+            <p class="meta">2016 — 2020 · Título obtenido</p>
+            <p>Descripción breve de la carrera y de los logros destacados.</p>
+          </div>
+          <div class="timeline-item">
+            <h3>Certificación / Bootcamp</h3>
+            <p class="meta">2021 · Programa</p>
+            <p>Descripción breve del programa y de las competencias adquiridas.</p>
+          </div>
+        </div>
+      </section>
 
-    <!-- Habilidades -->
-    <section class="container my-5">
-      <h2 class="mb-4">Habilidades</h2>
-      <div class="d-flex flex-wrap gap-2">
-        <span class="badge bg-primary">HTML</span>
-        <span class="badge bg-secondary">CSS</span>
-        <span class="badge bg-success">JavaScript</span>
-        <span class="badge bg-danger">React</span>
-        <span class="badge bg-warning text-dark">Node.js</span>
-        <span class="badge bg-info text-dark">Express</span>
-        <span class="badge bg-dark">Python</span>
-        <span class="badge bg-light text-dark">SQL</span>
-        <span class="badge bg-primary">Git</span>
-      </div>
-    </section>
+      <!-- Habilidades -->
+      <section class="wrap" id="habilidades">
+        <h2 class="section-title">Habilidades</h2>
+        <div class="chips">
+          <span class="chip">HTML</span>
+          <span class="chip">CSS</span>
+          <span class="chip">JavaScript</span>
+          <span class="chip">React</span>
+          <span class="chip">Node.js</span>
+          <span class="chip">Express</span>
+          <span class="chip">Python</span>
+          <span class="chip">SQL</span>
+          <span class="chip">Git</span>
+        </div>
+      </section>
+
+      <!-- Proyectos destacados: repos propios marcados con estrella por el autor -->
+      <section class="wrap" id="destacados">
+        <h2 class="section-title">Proyectos destacados</h2>
+        <p class="state">
+          Repositorios propios que he marcado con
+          <strong>★ estrella</strong> en GitHub.
+        </p>
+        <div class="repo-grid" id="featured-cards"></div>
+      </section>
+
+      <!-- Repositorios: el resto -->
+      <section class="wrap" id="repositorios">
+        <h2 class="section-title">Repositorios</h2>
+        <p class="state">Resto de mis repositorios públicos, más recientes primero.</p>
+        <div class="repo-grid" id="repo-cards"></div>
+      </section>
+    </main>
 
     <!-- Footer -->
-    <footer class="bg-light text-center py-4">
-      <p class="mb-0">
-        &copy; 2024 [Tu Nombre]. Todos los derechos reservados.
-      </p>
+    <footer class="bottom">
+      <div class="wrap">
+        <span>&copy; 2026 [Tu Nombre]. Todos los derechos reservados.</span>
+        <span>
+          Estilo basado en
+          <a href="https://brayandiazc.com" target="_blank" rel="noopener"
+            >brayandiazc.com</a
+          >
+        </span>
+      </div>
     </footer>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/app.js"></script>
+    <script type="module" src="assets/js/app.js"></script>
   </body>
 </html>

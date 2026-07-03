@@ -1,0 +1,403 @@
+/* ==========================================================================
+   Plantilla Portafolio Básico — hoja de estilos
+   Design tokens tomados de brayandiazc.com (mismos que social-banner-template).
+   Tema por atributo data-theme="light|dark" en <html>.
+   ========================================================================== */
+
+:root,
+[data-theme="light"] {
+  --background: #fdfdfd;
+  --background-2: #eef1f4;
+  --foreground: #282728;
+  --accent: #006cac;
+  --accent-2: #00a3cc;
+  --muted: #e6e6e6;
+  --muted-foreground: #6b7280;
+  --border: #ece9e9;
+  --card: #ffffff;
+  --danger: #d33f2e;
+}
+
+[data-theme="dark"] {
+  --background: #212737;
+  --background-2: #2a3149;
+  --foreground: #eaedf3;
+  --accent: #ff6b01;
+  --accent-2: #ffa64d;
+  --muted: #343f60;
+  --muted-foreground: #afb9ca;
+  --border: #4a5578;
+  --card: #262d41;
+  --danger: #ff8a75;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Google Sans Code", ui-monospace, "SF Mono", Menlo, monospace;
+  background: var(--background);
+  color: var(--foreground);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+code {
+  background: var(--muted);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+  font-family: inherit;
+  font-size: 0.92em;
+}
+
+/* — Layout base — */
+.wrap {
+  width: min(1080px, 100% - 3rem);
+  margin: 0 auto;
+}
+
+section {
+  padding: 3.25rem 0 0.5rem;
+}
+
+.section-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 1.5rem;
+}
+
+.section-title::before {
+  content: "── ";
+  color: var(--accent);
+}
+
+/* — Barra superior — */
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 0;
+  background: color-mix(in srgb, var(--background) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+
+.top .wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: min(1080px, 100% - 3rem);
+}
+
+.brand {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted-foreground);
+}
+
+.brand::before {
+  content: "// ";
+  color: var(--accent);
+}
+
+#page-theme {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--foreground);
+  width: 2.2rem;
+  height: 2.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+#page-theme:hover {
+  border-color: var(--accent);
+}
+
+/* — Hero — */
+.hero {
+  text-align: center;
+  padding: 3.5rem 0 2rem;
+}
+
+.hero img {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+  margin-bottom: 1.25rem;
+}
+
+.hero h1 {
+  font-size: clamp(1.9rem, 5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5rem;
+}
+
+.hero .lead {
+  color: var(--muted-foreground);
+  margin: 0 auto 1.75rem;
+  max-width: 46ch;
+}
+
+.social {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.55rem 1.1rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--foreground);
+  background: var(--card);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.btn-accent {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.btn-accent:hover {
+  filter: brightness(1.1);
+  color: #fff;
+}
+
+/* — Prosa / párrafos — */
+.prose p {
+  margin: 0 0 1rem;
+  max-width: 68ch;
+}
+
+/* — Timeline (experiencia / educación) — */
+.timeline {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.timeline-item {
+  border-left: 2px solid var(--border);
+  padding: 0 0 0.25rem 1.25rem;
+  position: relative;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -5px;
+  top: 0.4rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.timeline-item h3 {
+  margin: 0 0 0.15rem;
+  font-size: 1.05rem;
+}
+
+.timeline-item .meta {
+  color: var(--muted-foreground);
+  font-size: 0.85rem;
+  margin: 0 0 0.4rem;
+}
+
+.timeline-item p {
+  margin: 0;
+}
+
+/* — Chips / habilidades — */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--muted) 40%, var(--background));
+  color: var(--foreground);
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.82rem;
+}
+
+/* — Grid de repos — */
+.repo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.repo-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card);
+  padding: 1.15rem 1.2rem;
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.repo-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: 0 12px 30px -18px rgb(0 0 0 / 0.45);
+}
+
+.repo-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  word-break: break-word;
+}
+
+.repo-card h3 .star {
+  color: var(--accent);
+  font-size: 0.85rem;
+}
+
+.repo-card .desc {
+  margin: 0 0 1rem;
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
+  flex-grow: 1;
+}
+
+.repo-card .topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.topic {
+  font-size: 0.72rem;
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+}
+
+.repo-card .foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+}
+
+.repo-card .stats {
+  display: flex;
+  gap: 0.9rem;
+}
+
+.repo-card .stats span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.repo-link {
+  color: var(--accent);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* — Estado (carga / error / vacío) — */
+.state {
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
+  padding: 0.5rem 0;
+}
+
+.state.error {
+  color: var(--danger);
+}
+
+/* — Footer — */
+.bottom {
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+}
+
+.bottom .wrap {
+  padding: 1.5rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.82rem;
+  color: var(--muted-foreground);
+}
+
+/* — Utilidades — */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+@media (max-width: 560px) {
+  .hero {
+    padding-top: 2.5rem;
+  }
+  section {
+    padding-top: 2.5rem;
+  }
+}

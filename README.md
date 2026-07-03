@@ -1,108 +1,174 @@
-# 📌 Plantilla Portafolio Básico
+# Plantilla Portafolio Básico
 
-Portafolio personal desarrollado con **HTML5**, **CSS3**, y **Bootstrap 5.3**. Incluye secciones como perfil, experiencia, educación, habilidades y proyectos destacados.
+Portafolio personal en una sola página, **estático y sin framework**: solo HTML5,
+CSS3 (con design tokens propios) y JavaScript. Muestra tu perfil por secciones y
+carga tus repositorios en vivo desde la API pública de GitHub, con **tema claro y
+oscuro** siguiendo el estilo gráfico de [brayandiazc.com](https://brayandiazc.com).
 
-Diseñado para mostrar mi perfil profesional como **Desarrollador Full Stack** y facilitar el contacto a través de redes sociales y correo electrónico.
+![License](https://img.shields.io/badge/license-MIT-blue)
+![Stack](https://img.shields.io/badge/stack-HTML%20%C2%B7%20CSS%20%C2%B7%20JS-006cac)
 
-## 🖼️ Vista Previa
+## Tabla de Contenidos
+
+- [Descripción](#descripción)
+- [Características](#características)
+- [Vista previa](#vista-previa)
+- [Stack Tecnológico](#stack-tecnológico)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Instalación y uso](#instalación-y-uso)
+- [Configuración](#configuración)
+- [Cómo se separan proyectos y repositorios](#cómo-se-separan-proyectos-y-repositorios)
+- [Tema y diseño](#tema-y-diseño)
+- [Deployment](#deployment)
+- [Documentación](#documentación)
+- [Contribución](#contribución)
+- [Roadmap](#roadmap)
+- [Autores](#autores)
+- [Licencia](#licencia)
+
+## Descripción
+
+Esta plantilla es una portada profesional lista para publicar en GitHub Pages.
+Está pensada para clonarse, cambiar tu usuario de GitHub y tus datos, y tener un
+portafolio funcional sin build ni backend. La sección de proyectos se alimenta
+sola desde tu cuenta de GitHub.
+
+## Características
+
+- ✅ Diseño responsivo, **sin frameworks CSS** (Bootstrap fue reemplazado por CSS propio)
+- ✅ **Tema claro/oscuro** con conmutador y persistencia (`localStorage`), sin parpadeo
+- ✅ Secciones bien separadas: perfil, sobre mí, experiencia, educación, habilidades
+- ✅ **Proyectos destacados** y **Repositorios** cargados en vivo desde la API de GitHub
+- ✅ Los destacados son tus repos propios marcados con ⭐ estrella por ti
+- ✅ Datos estructurados JSON-LD para SEO
+- ✅ Cero dependencias que instalar
+
+## Vista previa
 
 | Inicio                        |
 | ----------------------------- |
 | ![main](assets/img/main.jpeg) |
 
-## 🧰 Tecnologías Usadas
+## Stack Tecnológico
 
-- [Bootstrap 5.3](https://getbootstrap.com/)
 - [HTML5](https://developer.mozilla.org/es/docs/Web/HTML)
-- [CSS3](https://developer.mozilla.org/es/docs/Web/CSS)
-- [Font Awesome](https://fontawesome.com/)
-- [GitHub API](https://docs.github.com/en/rest)
+- [CSS3](https://developer.mozilla.org/es/docs/Web/CSS) con variables/design tokens propios
+- JavaScript (ES modules, `fetch`) — sin dependencias
+- [GitHub REST API](https://docs.github.com/en/rest) (pública, sin token)
+- Tipografía [Google Sans Code](https://fonts.google.com/)
+- [GitHub Pages](https://pages.github.com/) para el deploy
 
-## 📁 Estructura del Proyecto
+Detalle completo en [`docs/architecture/stack.md`](docs/architecture/stack.md).
+
+## Estructura del Proyecto
 
 ```bash
-bootstrap-portfolio/
+portfolio-template-basic/
 ├── assets/
-│ ├── css/
-│ │ └── styles.css
-│ └── js/
-│ └── app.js
-├── index.html
-├── README.md
-└── ...
+│   ├── css/styles.css   # tema y estilos (design tokens de brayandiazc.com)
+│   ├── js/app.js        # carga de repos y conmutador de tema
+│   └── img/main.jpeg
+├── docs/                # documentación (arquitectura, convenciones, decisiones…)
+├── index.html           # única página del sitio
+├── CNAME                # dominio personalizado (GitHub Pages)
+└── README.md
 ```
 
-## 🚀 Cómo usar
+## Instalación y uso
 
-1. Clona el repositorio:
-
-```bash
-git clone https://github.com/brayandiazc/portafolio.git
-cd portafolio
-```
-
-2. Abre `index.html` en tu navegador:
+Clona el repositorio y ábrelo con cualquier servidor estático:
 
 ```bash
+git clone https://github.com/brayandiazc/portfolio-template-basic.git
+cd portfolio-template-basic
+
+# Opción A: abrir directamente
 open index.html
-# o doble clic en el archivo
+
+# Opción B: servidor estático local
+python3 -m http.server 8000
+# → http://localhost:8000
 ```
 
-## 📲 Funcionalidades
+No hay dependencias que instalar ni paso de build.
 
-- Diseño responsivo (adaptable a móviles y escritorio)
-- Secciones bien definidas: Sobre mí, Experiencia, Educación, Habilidades
-- Enlaces directos a GitHub, LinkedIn y correo electrónico
-- Íconos personalizados con Font Awesome
-- Carga dinámica de proyectos desde tu cuenta de GitHub
-- Datos estructurados JSON-LD para mejorar SEO
+## Configuración
 
-## 🔧 ¿Cómo funciona la integración con JavaScript?
-
-La sección de proyectos destacados se genera **dinámicamente** usando JavaScript y la API pública de GitHub.
-
-### Flujo:
-
-1. En el HTML existe un contenedor vacío con el `id="project-cards"`.
-2. El script `app.js` se ejecuta cuando carga la página.
-3. Este código llama a la GitHub API usando `fetch()` y obtiene los repositorios del usuario.
-4. Solo muestra repositorios que tengan al menos un `topic`.
-5. Por cada repo válido, crea una **card de Bootstrap** con el nombre, descripción, badges y un botón.
-
-### Fragmento de código clave:
+Edita el objeto `CONFIG` al inicio de [`assets/js/app.js`](assets/js/app.js):
 
 ```js
-const githubUsername = "brayandiazc";
-const projectContainer = document.getElementById("project-cards");
-
-async function fetchUserRepos() {
-  const res = await fetch(
-    `https://api.github.com/users/${githubUsername}/repos`
-  );
-  const repos = await res.json();
-  repos.forEach((repo) => {
-    if (repo.topics?.length) renderProjectCard(repo);
-  });
-}
+const CONFIG = {
+  githubUsername: "brayandiazc", // ← tu usuario de GitHub
+  exclude: ["brayandiazc"], // repos a ocultar (p. ej. el repo de perfil)
+  hideForks: true, // ocultar forks
+  maxTopics: 4, // topics a mostrar por card
+};
 ```
 
-Esto automatiza la sección de proyectos sin tener que editar el HTML cada vez que agregas algo nuevo a tu GitHub. ¡Una solución limpia y moderna!
+Luego reemplaza los `[Tu Nombre]`, la foto, redes y textos en `index.html`.
 
-## 🛣️ Roadmap
+## Cómo se separan proyectos y repositorios
 
-- [ ] Agregar sección de blog
-- [ ] Animaciones con AOS.js
-- [ ] Formulario de contacto funcional (via Formspree o similar)
-- [ ] Tema oscuro
+La sección de proyectos se genera **dinámicamente** desde tu GitHub, dividida en dos:
 
-## 🖇️ Contribuye
+1. **Proyectos destacados** → tus repositorios **propios** que **tú has marcado con
+   estrella** (`/users/{usuario}/starred`, filtrando `owner == usuario`). Es una
+   curaduría manual: la estrella en tu propio repo lo asciende a destacado.
+2. **Repositorios** → el resto de tus repos públicos, ordenados por actividad reciente.
 
-¿Quieres colaborar? Haz un fork, crea tu rama (`feature/nueva-funcionalidad`), haz tus cambios y abre un pull request.
+Se ocultan forks y archivados; todo es configurable en `CONFIG`. La API pública
+tiene límite de peticiones sin token (60/hora por IP), suficiente para un portafolio.
 
-## 📄 Licencia
+## Tema y diseño
 
-MIT — ver [LICENSE](LICENSE.md)
+Los colores provienen de los design tokens de brayandiazc.com:
+
+| Token  | Claro     | Oscuro    |
+| ------ | --------- | --------- |
+| Fondo  | `#fdfdfd` | `#212737` |
+| Texto  | `#282728` | `#eaedf3` |
+| Acento | `#006cac` | `#ff6b01` |
+| Muted  | `#e6e6e6` | `#343f60` |
+
+El tema se controla con `data-theme="light|dark"` en `<html>` y se conmuta con el
+botón ◐ de la barra superior. Más detalle en
+[`docs/conventions/design-system.md`](docs/conventions/design-system.md).
+
+## Deployment
+
+Sitio estático servido por **GitHub Pages** desde `main`, con dominio personalizado
+vía el archivo `CNAME`. Procedimiento en [`docs/conventions/deploy.md`](docs/conventions/deploy.md).
+
+## Documentación
+
+Toda la documentación vive en [`docs/`](docs/README.md):
+
+| Documento                                                                | Responde a                     |
+| ------------------------------------------------------------------------ | ------------------------------ |
+| [`docs/architecture/architecture.md`](docs/architecture/architecture.md) | ¿Cómo está construido?         |
+| [`docs/architecture/stack.md`](docs/architecture/stack.md)               | ¿Con qué tecnologías?          |
+| [`docs/architecture/design.md`](docs/architecture/design.md)             | ¿Cómo se diseña y por qué?     |
+| [`docs/product/roadmap.md`](docs/product/roadmap.md)                     | ¿Hacia dónde va?               |
+| [`docs/decisions/`](docs/decisions/README.md)                            | ¿Por qué cada decisión?        |
+| [`docs/conventions/`](docs/conventions/README.md)                        | ¿Cómo trabajamos en este repo? |
+
+## Contribución
+
+Lee la [Guía de Contribución](CONTRIBUTING.md) para conocer el flujo de trabajo,
+los estándares de código y el formato de commits (Conventional Commits).
+
+## Roadmap
+
+Visión y próximos pasos en [`docs/product/roadmap.md`](docs/product/roadmap.md).
+
+## Autores
+
+- **Brayan Diaz C** — _Trabajo inicial_ — [@brayandiazc](https://github.com/brayandiazc)
+
+## Licencia
+
+Este proyecto está bajo la licencia [MIT](LICENSE).
 
 ---
 
-⌨️ con ❤️ por [Brayan Diaz C](https://github.com/brayandiazc)
+⌨️ con ❤️ por [@brayandiazc](https://github.com/brayandiazc)
