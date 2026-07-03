@@ -6,12 +6,14 @@
 
 ## Logos
 
-Esta plantilla no incluye logos dedicados; la identidad se apoya en la tipografía y
-los tokens de color. El único asset de imagen es la foto de portada.
+Esta plantilla no incluye logos ni imágenes dedicadas; la identidad se apoya en la
+tipografía y los tokens de color. Añade tus propios assets (foto de perfil, captura
+para compartir en redes / `og:image`) bajo `assets/img/` cuando personalices el sitio.
 
-| Asset            | Archivo fuente          | Uso                          |
-| ---------------- | ----------------------- | ---------------------------- |
-| Imagen principal | `assets/img/main.jpeg`  | Hero / imagen para compartir |
+| Asset (sugerido)     | Archivo fuente          | Uso                              |
+| -------------------- | ----------------------- | -------------------------------- |
+| Foto de perfil       | `assets/img/avatar.jpg` | Hero (reemplaza el placeholder)  |
+| Imagen para redes    | `assets/img/preview.png`| `og:image` / social preview      |
 
 - Si añades un logo, mantén el fuente en formato vectorial (SVG) y genera los rasterizados desde ahí.
 
@@ -31,7 +33,7 @@ los tokens de color. El único asset de imagen es la foto de portada.
 
 ```text
 assets/img/
-└── main.jpeg   # imagen principal / para compartir en redes
+└── (vacío)   # añade aquí tu foto de perfil y la imagen para compartir en redes
 ```
 
 ## Referencias

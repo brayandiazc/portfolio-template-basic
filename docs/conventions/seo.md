@@ -33,7 +33,7 @@ Cada página debe proveer, a través del layout/head compartido:
 
 ```html
 <meta name="description" content="[Descripción de la página]" />
-<meta property="og:image" content="http://template-portafolio.com/assets/img/main.jpeg" />
+<meta property="og:image" content="https://brayandiazc.github.io/portfolio-template-basic/assets/img/preview.png" />
 ```
 
 ## Referencias

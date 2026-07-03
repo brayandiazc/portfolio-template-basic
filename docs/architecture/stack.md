@@ -18,7 +18,7 @@
 | Categoría | Tecnología                                                               |
 | --------- | ------------------------------------------------------------------------ |
 | Hosting   | GitHub Pages (sitio estático, sin build)                                 |
-| Dominio   | Dominio propio vía `CNAME` → http://template-portafolio.com              |
+| URL       | `https://brayandiazc.github.io/portfolio-template-basic/` (dominio propio opcional vía `CNAME`) |
 | CI/CD     | Deploy por push a `main`; GitHub Actions (opcional, ver `ci.example.yml`) |
 | Formato   | Prettier / `format-markdown.sh` para documentación                       |
 
@@ -35,7 +35,7 @@
 | JavaScript vanilla        | React / Vite / Astro       | Una sola página con poca lógica; menos mantenimiento y sin build |
 | CSS con variables propias | Bootstrap u otro framework | Control total del sistema de tokens claro/oscuro; menos peso     |
 | API pública de GitHub     | API autenticada / backend  | Sin secretos que gestionar; el límite de 60 req/h basta          |
-| GitHub Pages              | Vercel / Netlify           | Deploy directo por push, gratuito y con dominio propio (CNAME)   |
+| GitHub Pages              | Vercel / Netlify           | Deploy directo por push, gratuito y con dominio propio opcional  |
 
 ## Versiones mínimas soportadas
 

@@ -12,7 +12,6 @@ oscuro** siguiendo el estilo gráfico de [brayandiazc.com](https://brayandiazc.c
 
 - [Descripción](#descripción)
 - [Características](#características)
-- [Vista previa](#vista-previa)
 - [Stack Tecnológico](#stack-tecnológico)
 - [Estructura del Proyecto](#estructura-del-proyecto)
 - [Instalación y uso](#instalación-y-uso)
@@ -43,12 +42,6 @@ sola desde tu cuenta de GitHub.
 - ✅ Datos estructurados JSON-LD para SEO
 - ✅ Cero dependencias que instalar
 
-## Vista previa
-
-| Inicio                        |
-| ----------------------------- |
-| ![main](assets/img/main.jpeg) |
-
 ## Stack Tecnológico
 
 - [HTML5](https://developer.mozilla.org/es/docs/Web/HTML)
@@ -66,11 +59,9 @@ Detalle completo en [`docs/architecture/stack.md`](docs/architecture/stack.md).
 portfolio-template-basic/
 ├── assets/
 │   ├── css/styles.css   # tema y estilos (design tokens de brayandiazc.com)
-│   ├── js/app.js        # carga de repos y conmutador de tema
-│   └── img/main.jpeg
+│   └── js/app.js        # carga de repos y conmutador de tema
 ├── docs/                # documentación (arquitectura, convenciones, decisiones…)
 ├── index.html           # única página del sitio
-├── CNAME                # dominio personalizado (GitHub Pages)
 └── README.md
 ```
 
@@ -136,8 +127,10 @@ botón ◐ de la barra superior. Más detalle en
 
 ## Deployment
 
-Sitio estático servido por **GitHub Pages** desde `main`, con dominio personalizado
-vía el archivo `CNAME`. Procedimiento en [`docs/conventions/deploy.md`](docs/conventions/deploy.md).
+Sitio estático servido por **GitHub Pages** desde `main`, disponible en
+`https://brayandiazc.github.io/portfolio-template-basic/`. Puedes añadir un dominio
+propio (opcional) con un archivo `CNAME`. Procedimiento en
+[`docs/conventions/deploy.md`](docs/conventions/deploy.md).
 
 ## Documentación
 
